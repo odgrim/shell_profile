@@ -46,6 +46,24 @@ filetype plugin indent on
 NeoBundleCheck
 "End NeoBundle Scripts-------------------------
 
-
+" ------------------------------
+" --       Color Scheme       --
+" ------------------------------
 syntax on
-colorscheme anotherdark
+set background=dark
+let g:solarized_visibility = "low"
+colorscheme solarized
+
+
+" ------------------------------
+" --        Bindings          --
+" ------------------------------
+
+imap jk <Esc>
+
+" ------------------------------
+" --         Options          --
+" ------------------------------
+set number
+"set list
+set timeoutlen=100
