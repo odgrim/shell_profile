@@ -21,6 +21,7 @@ NeoBundle 'Shougo/neosnippet-snippets'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'ctrlpvim/ctrlp.vim'
 NeoBundle 'flazz/vim-colorschemes'
+NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'Shougo/vimproc.vim', {
 			\ 'build' : {
 			\     'windows' : 'tools\\update-dll-mingw',
@@ -65,5 +66,9 @@ imap jk <Esc>
 " --         Options          --
 " ------------------------------
 set number
+set smartindent
+set expandtab
+set shiftwidth=4
+set softtabstop=4
 "set list
 set timeoutlen=100
