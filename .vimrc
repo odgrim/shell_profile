@@ -1,51 +1,63 @@
-"NeoBundle Scripts-----------------------------
-if has('vim_starting')
-  if &compatible
-    set nocompatible               " Be iMproved
+let $CACHE = expand('~/.cache')
+if !($CACHE->isdirectory())
+  call mkdir($CACHE, 'p')
+endif
+if &runtimepath !~# '/dein.vim'
+  let s:dir = 'dein.vim'->fnamemodify(':p')
+  if !(s:dir->isdirectory())
+    let s:dir = $CACHE .. '/dein/repos/github.com/Shougo/dein.vim'
+    if !(s:dir->isdirectory())
+      execute '!git clone https://github.com/Shougo/dein.vim' s:dir
+    endif
   endif
-
-  " Required:
-  set runtimepath+=/Users/btorres/.vim/bundle/neobundle.vim/
+  execute 'set runtimepath^='
+        \ .. s:dir->fnamemodify(':p')->substitute('[/\\]$', '', '')
 endif
 
-" Required:
-call neobundle#begin(expand('/Users/btorres/.vim/bundle'))
+" Ward off unexpected things that your distro might have made, as
+" well as sanely reset options when re-sourcing .vimrc
+set nocompatible
 
-" Let NeoBundle manage NeoBundle
-" Required:
-NeoBundleFetch 'Shougo/neobundle.vim'
+" Set dein base path (required)
+let s:dein_base = '~/.cache/dein/'
 
-" Add or remove your Bundles here:
-NeoBundle 'Shougo/neosnippet.vim'
-NeoBundle 'Shougo/neosnippet-snippets'
-NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'ctrlpvim/ctrlp.vim'
-NeoBundle 'flazz/vim-colorschemes'
-NeoBundle 'kchmck/vim-coffee-script'
-NeoBundle 'Shougo/vimproc.vim', {
-			\ 'build' : {
-			\     'windows' : 'tools\\update-dll-mingw',
-			\     'cygwin' : 'make -f make_cygwin.mak',
-			\     'mac' : 'make -f make_mac.mak',
-			\     'linux' : 'make',
-			\     'unix' : 'gmake',
-			\    },
-			\ }
-NeoBundle 'scrooloose/nerdtree'
+" Set dein source path (required)
+let s:dein_src = '~/.cache/dein/repos/github.com/Shougo/dein.vim'
 
-" You can specify revision/branch/tag.
-NeoBundle 'Shougo/vimshell', { 'rev' : '3787e5' }
+" Set dein runtime path (required)
+execute 'set runtimepath+=' .. s:dein_src
 
-" Required:
-call neobundle#end()
+" Call dein initialization (required)
+call dein#begin(s:dein_base)
 
-" Required:
-filetype plugin indent on
+call dein#add(s:dein_src)
 
-" If there are uninstalled bundles found on startup,
-" this will conveniently prompt you to install them.
-NeoBundleCheck
-"End NeoBundle Scripts-------------------------
+" Your plugins go here:
+"call dein#add('Shougo/neosnippet.vim')
+"call dein#add('Shougo/neosnippet-snippets')
+call dein#add('tpope/vim-fugitive')
+call dein#add('ctrlpvim/ctrlp.vim')
+call dein#add('flazz/vim-colorschemes')
+call dein#add('kchmck/vim-coffee-script')
+call dein#add('scrooloose/nerdtree')
+
+" Finish dein initialization (required)
+call dein#end()
+
+" Attempt to determine the type of a file based on its name and possibly its
+" contents. Use this to allow intelligent auto-indenting for each filetype,
+" and for plugins that are filetype specific.
+filetype indent plugin on
+
+" Enable syntax highlighting
+if has('syntax')
+  syntax on
+endif
+
+" Uncomment if you want to install not-installed plugins on startup.
+if dein#check_install()
+ call dein#install()
+endif
 
 " ------------------------------
 " --       Color Scheme       --
@@ -54,21 +66,21 @@ syntax on
 set background=dark
 let g:solarized_visibility = "low"
 colorscheme solarized
-
-
-" ------------------------------
-" --        Bindings          --
-" ------------------------------
-
+"
+"
+"" ------------------------------
+"" --        Bindings          --
+"" ------------------------------
+"
 imap jk <Esc>
-
-" ------------------------------
-" --         Options          --
-" ------------------------------
+"
+"" ------------------------------
+"" --         Options          --
+"" ------------------------------
 set number
 set smartindent
 set expandtab
 set shiftwidth=4
 set softtabstop=4
 "set list
-set timeoutlen=100
+"set timeoutlen=100
